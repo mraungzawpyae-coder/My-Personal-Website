@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- ROBUST ROOT-RELATIVE PATH SCRIPT -->
+    <!-- INTELLIGENT ASSET URL CLEANER SCRIPT -->
     <script>
         let blogPosts = [];
 
@@ -321,7 +321,7 @@
             blogGrid.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-12 text-slate-400">
                     <i class="fas fa-spinner fa-spin text-3xl text-purple-500 mb-3"></i>
-                    <p class="text-sm">CMS ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
+                    <p class="text-sm">ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
                 </div>`;
 
             const repoOwner = 'mraungzawpyae-coder';
@@ -363,19 +363,16 @@
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
                             if (rawImg) {
-                                if (rawImg.includes('raw.githubusercontent.com')) {
-                                    const pathParts = rawImg.split('/assets/');
-                                    if (pathParts.length > 1) {
-                                        imgUrl = '/assets/' + pathParts[1];
-                                    } else {
-                                        imgUrl = rawImg;
-                                    }
-                                } else if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
-                                    imgUrl = rawImg;
+                                // Extract asset filename regardless of whether it contains GitHub URL, absolute path or relative path
+                                if (rawImg.includes('/assets/images/')) {
+                                    const parts = rawImg.split('/assets/images/');
+                                    imgUrl = '/assets/images/' + parts[parts.length - 1];
+                                } else if (rawImg.includes('assets/images/')) {
+                                    const parts = rawImg.split('assets/images/');
+                                    imgUrl = '/assets/images/' + parts[parts.length - 1];
                                 } else {
-                                    // Ensure leading slash so it correctly resolves from root domain regardless of route (/blog, etc.)
-                                    const cleanPath = rawImg.replace(/^\/+/, '');
-                                    imgUrl = '/' + cleanPath;
+                                    const cleanName = rawImg.split('/').pop();
+                                    imgUrl = '/assets/images/' + cleanName;
                                 }
                             }
 
