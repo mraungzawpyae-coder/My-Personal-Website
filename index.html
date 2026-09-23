@@ -61,19 +61,19 @@
     <!-- FLOATING NAVIGATION BAR -->
     <header class="sticky top-4 z-50 max-w-5xl mx-auto px-4 w-full">
         <nav class="glass-nav rounded-full px-6 py-3 flex items-center justify-between shadow-lg shadow-purple-950/40">
-            <a href="#" onclick="switchTab('home')" class="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
+            <a href="#" onclick="switchTab('home', true)" class="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
                 <span class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-black shadow-md shadow-purple-500/50">AZ</span>
                 <span class="bg-gradient-to-r from-white via-slate-200 to-purple-400 bg-clip-text text-transparent">PORTFOLIO</span>
             </a>
 
             <div class="flex items-center space-x-2 sm:space-x-6 text-xs sm:text-sm font-medium">
-                <button id="nav-home" onclick="switchTab('home')" class="nav-btn text-purple-400 font-semibold px-3 py-1.5 rounded-full transition hover:text-purple-300">
+                <button id="nav-home" onclick="switchTab('home', true)" class="nav-btn text-purple-400 font-semibold px-3 py-1.5 rounded-full transition hover:text-purple-300">
                     <i class="fas fa-home mr-1.5"></i>Home
                 </button>
-                <button id="nav-blog" onclick="switchTab('blog')" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
+                <button id="nav-blog" onclick="switchTab('blog', true)" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
                     <i class="fas fa-newspaper mr-1.5"></i>Blog
                 </button>
-                <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
+                <button id="nav-contact" onclick="switchTab('contact', true)" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
                     <i class="fas fa-paper-plane mr-1.5"></i>Contact
                 </button>
             </div>
@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- DECAP CMS DEEP INTEGRATION SCRIPT -->
+    <!-- URL ROUTING & DECAP CMS SCRIPT -->
     <script>
         let blogPosts = [];
 
@@ -359,7 +359,6 @@
                                 ? new Date(metadata.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                                 : 'Recently';
 
-                            // Fix Image Path for Decap CMS uploaded assets
                             let rawImg = metadata.thumbnail || metadata.image || '';
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
@@ -367,7 +366,6 @@
                                 if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
                                     imgUrl = rawImg;
                                 } else {
-                                    // Remove leading slash if any
                                     const cleanPath = rawImg.replace(/^\/+/, '');
                                     imgUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}`;
                                 }
@@ -495,7 +493,8 @@
             document.getElementById('blog-tags').classList.remove('hidden');
         }
 
-        function switchTab(tabId) {
+        // TAB SWITCHING WITH URL ROUTING (pushState)
+        function switchTab(tabId, pushHistory = true) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('text-purple-400', 'font-semibold');
@@ -512,7 +511,21 @@
             }
 
             closeArticle();
+
+            // Change browser URL dynamically without reloading page
+            if (pushHistory) {
+                const newPath = tabId === 'home' ? '/' : `/${tabId}`;
+                window.history.pushState({ tab: tabId }, '', newPath);
+            }
         }
+
+        // Handle Browser Back/Forward buttons
+        window.onpopstate = function(event) {
+            const path = window.location.pathname.replace('/', '') || 'home';
+            if (['home', 'blog', 'contact'].includes(path)) {
+                switchTab(path, false);
+            }
+        };
 
         function handleFormSubmit(e) {
             const alert = document.getElementById('form-alert');
@@ -522,6 +535,14 @@
 
         window.onload = function() {
             loadDecapPosts();
+
+            // Check current URL path on initial page load (e.g. refnews.site/blog)
+            const initialPath = window.location.pathname.replace('/', '').toLowerCase();
+            if (initialPath === 'blog' || initialPath === 'contact') {
+                switchTab(initialPath, false);
+            } else {
+                switchTab('home', false);
+            }
         };
     </script>
 </body>
