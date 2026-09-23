@@ -2,7 +2,7 @@ backend:
   name: github
   repo: mraungzawpyae-coder/My-Personal-Website
   branch: main
-  base_url: https://api.decapcms.org
+  base_url: https://decap-oauth-provider.vercel.app
   auth_endpoint: /auth
 
 media_folder: "assets/images"
