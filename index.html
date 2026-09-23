@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- STABLE ASSET PATH MAPPING SCRIPT -->
+    <!-- STRICT LOCAL ASSET PARSER (STRIPS RAW GITHUB URLS) -->
     <script>
         let blogPosts = [];
 
@@ -321,7 +321,7 @@
             blogGrid.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-12 text-slate-400">
                     <i class="fas fa-spinner fa-spin text-3xl text-purple-500 mb-3"></i>
-                    <p class="text-sm">ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်  ခဏစောင့်ပါ...</p>
+                    <p class="text-sm">CMS ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
                 </div>`;
 
             const repoOwner = 'mraungzawpyae-coder';
@@ -363,16 +363,13 @@
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
                             if (rawImg) {
-                                // Clean absolute or relative image paths and map directly to static asset path
-                                if (rawImg.includes('raw.githubusercontent.com') || rawImg.includes('github.com')) {
-                                    const pathParts = rawImg.split('/assets/');
-                                    if (pathParts.length > 1) {
-                                        imgUrl = 'assets/' + pathParts[1];
-                                    } else {
-                                        imgUrl = rawImg;
-                                    }
+                                // Strip any GitHub raw or absolute prefix and force absolute relative path
+                                if (rawImg.includes('/assets/')) {
+                                    const assetIndex = rawImg.indexOf('assets/');
+                                    imgUrl = '/' + rawImg.substring(assetIndex);
                                 } else {
-                                    imgUrl = rawImg.replace(/^\/+/, '');
+                                    const cleanPath = rawImg.replace(/^\/+/, '');
+                                    imgUrl = '/' + cleanPath;
                                 }
                             }
 
