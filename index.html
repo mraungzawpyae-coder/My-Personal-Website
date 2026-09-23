@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- FORCE LOCAL RELATIVE ASSET PARSER SCRIPT -->
+    <!-- CORRECT GITHUB RAW URL & FULL DISPLAY SCRIPT -->
     <script>
         let blogPosts = [];
 
@@ -321,7 +321,7 @@
             blogGrid.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-12 text-slate-400">
                     <i class="fas fa-spinner fa-spin text-3xl text-purple-500 mb-3"></i>
-                    <p class="text-sm">CMS ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
+                    <p class="text-sm">ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်  ကျေးဇူးပြု၍ခဏစောင့်ပါ...</p>
                 </div>`;
 
             const repoOwner = 'mraungzawpyae-coder';
@@ -363,19 +363,11 @@
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
                             if (rawImg) {
-                                // If rawImg contains GitHub raw URL, extract just the asset relative path automatically
-                                if (rawImg.includes('raw.githubusercontent.com')) {
-                                    const parts = rawImg.split('/assets/');
-                                    if (parts.length > 1) {
-                                        rawImg = 'assets/' + parts[1];
-                                    }
-                                }
-
                                 if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
                                     imgUrl = rawImg;
                                 } else {
                                     const cleanPath = rawImg.replace(/^\/+/, '');
-                                    imgUrl = `${window.location.origin}/${cleanPath}`;
+                                    imgUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}`;
                                 }
                             }
 
