@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- STRICT LOCAL ASSET PARSER (STRIPS RAW GITHUB URLS) -->
+    <!-- ROBUST ROOT-RELATIVE PATH SCRIPT -->
     <script>
         let blogPosts = [];
 
@@ -363,11 +363,17 @@
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
                             if (rawImg) {
-                                // Strip any GitHub raw or absolute prefix and force absolute relative path
-                                if (rawImg.includes('/assets/')) {
-                                    const assetIndex = rawImg.indexOf('assets/');
-                                    imgUrl = '/' + rawImg.substring(assetIndex);
+                                if (rawImg.includes('raw.githubusercontent.com')) {
+                                    const pathParts = rawImg.split('/assets/');
+                                    if (pathParts.length > 1) {
+                                        imgUrl = '/assets/' + pathParts[1];
+                                    } else {
+                                        imgUrl = rawImg;
+                                    }
+                                } else if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
+                                    imgUrl = rawImg;
                                 } else {
+                                    // Ensure leading slash so it correctly resolves from root domain regardless of route (/blog, etc.)
                                     const cleanPath = rawImg.replace(/^\/+/, '');
                                     imgUrl = '/' + cleanPath;
                                 }
