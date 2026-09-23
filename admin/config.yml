@@ -21,7 +21,7 @@ collections:
           label: "Category", 
           name: "category", 
           widget: "select", 
-          options: ["Tech", "Design", "Tutorial", "news", "General"],
+          options: ["Tech", "Design", "Tutorial", "News", "General"],
           default: "General" 
         }
       - { label: "Featured Image", name: "thumbnail", widget: "image", required: false }
