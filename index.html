@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="my" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio & Blog</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #090B15;
+            color: #E2E8F0;
+        }
+        /* Custom Glowing & Curved Card Styles */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            backdrop-filter: blur(12px);
+        }
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(16px);
+        }
+        .pill-badge {
+            background: linear-gradient(90deg, #7C3AED 0%, #A855F7 100%);
+            box-shadow: 0px 4px 20px rgba(168, 85, 247, 0.4);
+        }
+        .curved-card {
+            border-radius: 2rem;
+            border-top-left-radius: 3.5rem;
+        }
+        /* Tab transitions */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-purple-500 selection:text-white">
+
+    <!-- FLOATING NAVIGATION BAR -->
+    <header class="sticky top-4 z-50 max-w-5xl mx-auto px-4 w-full">
+        <nav class="glass-nav rounded-full px-6 py-3 flex items-center justify-between shadow-lg shadow-purple-950/40">
+            <!-- Logo / Name -->
+            <a href="#" onclick="switchTab('home')" class="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
+                <span class="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-xs font-black shadow-md shadow-purple-500/50">YN</span>
+                <span class="bg-gradient-to-r from-white via-slate-200 to-purple-400 bg-clip-text text-transparent">PORTFOLIO</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="flex items-center space-x-2 sm:space-x-6 text-xs sm:text-sm font-medium">
+                <button id="nav-home" onclick="switchTab('home')" class="nav-btn text-purple-400 font-semibold px-3 py-1.5 rounded-full transition hover:text-purple-300">
+                    <i class="fas fa-home mr-1.5"></i>Home
+                </button>
+                <button id="nav-blog" onclick="switchTab('blog')" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
+                    <i class="fas fa-newspaper mr-1.5"></i>Blog
+                </button>
+                <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn text-slate-400 hover:text-slate-200 px-3 py-1.5 rounded-full transition">
+                    <i class="fas fa-paper-plane mr-1.5"></i>Contact
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-6">
+
+        <!-- ================= HOME SECTION ================= -->
+        <div id="tab-home" class="tab-content active space-y-12">
+            
+            <!-- HERO BANNER -->
+            <section class="py-8 md:py-16 flex flex-col md:flex-row items-center justify-between gap-10">
+                <!-- Hero Image -->
+                <div class="w-full md:w-1/2 flex justify-center">
+                    <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-2xl shadow-purple-900/60">
+                        <img src="https://throbnight.xyz/wp-content/uploads/2026/09/Gemini_Generated_Image_y78jkwy78jkwy78j.jpg" alt="Profile" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                <!-- Hero Intro -->
+                <div class="w-full md:w-1/2 text-left space-y-4">
+                    <h2 class="text-xl md:text-2xl text-slate-300 font-light">Hello,</h2>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight">
+                        I'm <span class="border-r-4 border-purple-500 pr-2">Aung Zaw Linn</span>
+                    </h1>
+                    <p class="text-sm sm:text-base text-purple-300 font-medium tracking-wide pt-2">
+                        • Content Creator &nbsp; • Digital Artist &nbsp; • Developer
+                    </p>
+                    <!-- Social Icons -->
+                    <div class="flex items-center space-x-4 pt-4">
+                        <a href="https://www.facebook.com/yaung.pyanlay/" target="_blank" class="w-10 h-10 rounded-full border border-purple-500/40 flex items-center justify-center text-slate-300 hover:text-white hover:border-purple-400 hover:bg-purple-600/30 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.youtube.com/@alphatvmm/" target="_blank" class="w-10 h-10 rounded-full border border-purple-500/40 flex items-center justify-center text-slate-300 hover:text-white hover:border-purple-400 hover:bg-purple-600/30 transition"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@ypazl?_r=1&_t=ZS-99ySTfw7m3G" target="_blank" class="w-10 h-10 rounded-full border border-purple-500/40 flex items-center justify-center text-slate-300 hover:text-white hover:border-purple-400 hover:bg-purple-600/30 transition"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://github.com/mraungzawpyae-coder" target="_blank" class="w-10 h-10 rounded-full border border-purple-500/40 flex items-center justify-center text-slate-300 hover:text-white hover:border-purple-400 hover:bg-purple-600/30 transition"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT & CONTACT BADGES -->
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <!-- Left Bio -->
+                <div class="md:col-span-7 space-y-8">
+                    <div class="inline-block pill-badge text-white text-xl sm:text-2xl font-bold px-8 py-3 rounded-full">
+                        About me
+                    </div>
+                    
+                    <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed">
+                        <p class="font-medium text-white">Hi!</p>
+                        <p>
+                            My name is <span class="text-purple-300 font-semibold">Aung Zaw Linn</span>. I am a Digital Content Creator and Developer based in Myanmar. I build modern web applications and create engaging visual content.
+                        </p>
+                        <p>
+                            My objective: Challenge myself in a new environment to learn, develop, and improve my skills through creative digital projects.
+                        </p>
+                    </div>
+
+                    <!-- Quick Contacts -->
+                    <div class="space-y-4 pt-4">
+                        <h3 class="text-2xl font-bold text-white">Quick Info</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-slate-300">
+                            <div class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                                <i class="fas fa-envelope text-purple-400"></i>
+                                <span class="truncate">your.email@gmail.com</span>
+                            </div>
+                            <div class="flex items-center space-x-3 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                                <i class="fas fa-phone text-purple-400"></i>
+                                <span>+95 9 123 456 789</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Image Card -->
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative w-64 h-80 sm:w-72 sm:h-96 rounded-[3rem] overflow-hidden border-2 border-purple-500/40 p-2 glass-card">
+                        <img src="https://throbnight.xyz/wp-content/uploads/2026/09/photo_2026-09-23_20-09-00.jpg" alt="About Photo" class="w-full h-full object-cover rounded-[2.5rem]">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SKILLS & EDUCATION GLASS CARD -->
+            <section>
+                <div class="glass-card curved-card p-6 sm:p-10 md:p-12 space-y-10">
+                    <!-- Education & Soft Skill Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-purple-500/20 pb-8">
+                        <div>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <h3 class="text-2xl font-bold text-white">Education</h3>
+                                <span class="text-xs border border-purple-400/50 text-purple-300 px-3 py-1 rounded-full">2007 - 2011</span>
+                            </div>
+                            <p class="text-slate-300 text-sm font-medium">East Yangon University / Economic / Arts</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Soft skill</h3>
+                            <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                                <p>• Teamwork</p>
+                                <p>• Critical Thinking</p>
+                                <p>• Communication</p>
+                                <p>• Time Management</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Skills & Skill Set -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-purple-500/20 pb-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-6">Technical skill</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <div class="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center font-bold text-black text-xl shadow-md">Ai</div>
+                                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-white text-xl shadow-md">Ps</div>
+                                <div class="w-12 h-12 bg-purple-800 rounded-xl flex items-center justify-center font-bold text-purple-200 text-xl shadow-md">Pr</div>
+                                <div class="w-12 h-12 bg-indigo-900 rounded-xl flex items-center justify-center font-bold text-indigo-200 text-xl shadow-md">Ae</div>
+                                <div class="w-12 h-12 bg-red-900 rounded-xl flex items-center justify-center font-bold text-red-200 text-xl shadow-md">Id</div>
+                                <div class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center text-purple-400 text-xl shadow-md"><i class="fas fa-code"></i></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Skill set</h3>
+                            <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                                <p>• Web Development</p>
+                                <p>• Content Strategy</p>
+                                <p>• Graphic Design</p>
+                                <p>• Video Editing</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interest & Language -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Interest</h3>
+                            <p class="text-sm text-slate-300">Design Trends &nbsp;|&nbsp; Technology &nbsp;|&nbsp; Visual Arts</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-2">Language</h3>
+                            <p class="text-sm text-slate-300">Myanmar (Native) &nbsp;|&nbsp; English (Intermediate)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= BLOG SECTION ================= -->
+        <div id="tab-blog" class="tab-content space-y-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-purple-500/20 pb-6">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-white">Articles & Blog Posts</h1>
+                    <p class="text-slate-400 text-sm mt-1">နည်းပညာ၊ ဝဘ်ဒီဇိုင်းနှင့် ကိုယ်ပိုင် အတွေ့အကြုံ ဆောင်းပါးများ</p>
+                </div>
+                
+                <!-- Tag Filter -->
+                <div id="blog-tags" class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="filterBlog('All')" class="tag-btn active bg-purple-600 text-white px-3 py-1.5 rounded-full transition">All</button>
+                    <button onclick="filterBlog('Tech')" class="tag-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1.5 rounded-full transition">Tech</button>
+                    <button onclick="filterBlog('Design')" class="tag-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1.5 rounded-full transition">Design</button>
+                    <button onclick="filterBlog('Tutorial')" class="tag-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-3 py-1.5 rounded-full transition">Tutorial</button>
+                </div>
+            </div>
+
+            <!-- Blog Post List Grid -->
+            <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Blog cards injected dynamically via JavaScript -->
+            </div>
+
+            <!-- Full Article Reader View (Hidden by default) -->
+            <div id="blog-modal" class="hidden glass-card rounded-3xl p-6 sm:p-10 space-y-6">
+                <button onclick="closeArticle()" class="text-sm text-purple-400 hover:text-purple-300 font-semibold flex items-center space-x-2">
+                    <i class="fas fa-arrow-left"></i> <span>Back to Posts</span>
+                </button>
+                <div id="modal-content" class="space-y-6">
+                    <!-- Dynamic post content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <div id="tab-contact" class="tab-content space-y-8">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Get In Touch</h1>
+                <p class="text-slate-400 text-sm">မေးမြန်းလိုသည်များ သို့မဟုတ် ပရောဂျက်များအတွက် အောက်ပါ Form မှတစ်ဆင့် တိုက်ရိုက် စာပို့နိုင်ပါသည်။</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                <!-- Contact Info Side -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="glass-card p-6 rounded-2xl space-y-4">
+                        <h3 class="text-xl font-bold text-white mb-2">Contact Details</h3>
+                        <div class="flex items-start space-x-4 text-slate-300">
+                            <div class="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-500/40 flex items-center justify-center shrink-0">
+                                <i class="fas fa-envelope text-purple-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Email</p>
+                                <p class="text-sm font-medium text-white">your.email@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 text-slate-300">
+                            <div class="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-500/40 flex items-center justify-center shrink-0">
+                                <i class="fas fa-phone text-purple-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Phone / Telegram</p>
+                                <p class="text-sm font-medium text-white">+95 9 123 456 789</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4 text-slate-300">
+                            <div class="w-10 h-10 rounded-xl bg-purple-600/30 border border-purple-500/40 flex items-center justify-center shrink-0">
+                                <i class="fas fa-map-marker-alt text-purple-400"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">Location</p>
+                                <p class="text-sm font-medium text-white">Yangon, Myanmar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formspree / Web3Forms Contact Form -->
+                <div class="md:col-span-7">
+                    <form action="https://formspree.io/f/xqpabdpo" method="POST" onsubmit="handleFormSubmit(event)" class="glass-card p-6 sm:p-8 rounded-2xl space-y-4">
+                        <div id="form-alert" class="hidden p-4 rounded-xl text-xs font-medium"></div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                            <input type="text" name="name" required placeholder="နာမည် ရိုက်ထည့်ပါ" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                            <input type="email" name="email" required placeholder="အီးမေးလ် ရိုက်ထည့်ပါ" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Subject</label>
+                            <input type="text" name="subject" required placeholder="အကြောင်းအရာ" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Message</label>
+                            <textarea name="message" rows="4" required placeholder="ပေးပို့လိုသော စာများ ရေးသားပါ..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full pill-badge text-white font-semibold py-3 rounded-xl transition hover:opacity-90 flex items-center justify-center space-x-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-900 mt-12">
+        &copy; <script>document.write(new Date().getFullYear())</script> Your Name. All rights reserved. Hosted on Cloudflare Pages.
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Sample Blog Posts Data
+        const blogPosts = [
+            {
+                id: 1,
+                title: "Cloudflare Pages ဖြင့် အခမဲ့ Portfolio နှင့် Blog တည်ဆောက်နည်း",
+                category: "Tech",
+                date: "Sep 20, 2026",
+                image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600",
+                snippet: "Hosting စရိတ် လုံးဝ မကုန်ဘဲ Cloudflare Pages နှင့် Custom Domain ချိတ်ဆက်ကာ ကိုယ်ပိုင် Webpage တည်ဆောက်ပုံ အဆင့်ဆင့်...",
+                content: `
+                    <p class="text-lg text-purple-300 font-medium">Cloudflare Pages သည် Developer များ သာမက Content Creator များအတွက် အခမဲ့ ဝဘ်ဆိုက် လှမ်းတင်နိုင်သော အလွန် ကောင်းမွန်သည့် Platform ဖြစ်ပါသည်။</p>
+                    <h3 class="text-xl font-bold text-white mt-4">အဓိက အားသာချက်များ:</h3>
+                    <ul class="list-disc pl-5 space-y-1 text-slate-300">
+                        <li><strong>၁၀၀% အခမဲ့:</strong> Hosting စရိတ် လုံးဝ ပေးရန် မလိုပါ။</li>
+                        <li><strong>Free SSL:</strong> HTTPS လုံခြုံရေး အလိုအလျောက် ပါဝင်ပါသည်။</li>
+                        <li><strong>Custom Domain:</strong> မိမိ ဝယ်ယူထားသော .xyz, .me Domain များကို အလွယ်တကူ ချိတ်ဆက်နိုင်ပါသည်။</li>
+                    </ul>
+                    <p class="text-slate-300 mt-4">Blog Post များကို Markdown File (.md) သို့မဟုတ် HTML Structure ဖြင့် ထည့်သွင်းကာ အလွယ်တကူ တင်နိုင်ပါသည်။</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Modern UI/UX Design မှာ Bento Grid ကို ဘာကြောင့် သုံးကြသလဲ",
+                category: "Design",
+                date: "Sep 15, 2026",
+                image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=600",
+                snippet: "လက်ရှိ ခေတ်စားနေသော Bento Grid Layout အကြောင်းနှင့် Personal Brand အတွက် သန့်ရှင်းသပ်ရပ်စွာ အသုံးပြုနိုင်ပုံ...",
+                content: `
+                    <p class="text-slate-300">Bento Grid ဆိုသည်မှာ ဂျပန် Bento Lunch Box ကဲ့သို့ ကွက်စိပ်လေးများ ခွဲခြားကာ အချက်အလက်များကို သပ်ရပ်စွာ ပြသသည့် Design Trend တစ်ခု ဖြစ်ပါသည်။</p>
+                    <p class="text-slate-300 mt-2">Apple၊ Microsoft နှင့် အခြား နည်းပညာ ကုမ္ပဏီကြီးများသည် Product Showcase များနှင့် Portfolio များတွင် အပြိုင်အဆိုင် သုံးစွဲနေကြပါသည်။</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Tailwind CSS နှင့် FontAwesome စတင် လေ့လာသူများအတွက် လမ်းညွှန်",
+                category: "Tutorial",
+                date: "Sep 10, 2026",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600",
+                snippet: "CSS Code များ အများကြီး ရေးစရာ မလိုဘဲ Utility Class များကို အသုံးပြုကာ အချိန်တိုအတွင်း Web Layout ရေးသားနည်း...",
+                content: `
+                    <p class="text-slate-300">Tailwind CSS သည် ရိုးရာ CSS Framework များထက် ပိုမို လွတ်လပ်ပြီး Custom Design များကို မြန်ဆန်စွာ ရေးသားနိုင်အောင် ကူညီပေးပါသည်။</p>
+                `
+            }
+        ];
+
+        // Switch Navigation Tabs
+        function switchTab(tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Remove active style from buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-purple-400', 'font-semibold');
+                btn.classList.add('text-slate-400');
+            });
+
+            // Show selected tab
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if (targetTab) targetTab.classList.add('active');
+
+            // Highlight nav button
+            const targetBtn = document.getElementById(`nav-${tabId}`);
+            if (targetBtn) {
+                targetBtn.classList.remove('text-slate-400');
+                targetBtn.classList.add('text-purple-400', 'font-semibold');
+            }
+
+            // Close blog modal if open
+            closeArticle();
+        }
+
+        // Render Blog Posts
+        function renderBlogPosts(category = 'All') {
+            const blogGrid = document.getElementById('blog-grid');
+            blogGrid.innerHTML = '';
+
+            const filtered = category === 'All' ? blogPosts : blogPosts.filter(p => p.category === category);
+
+            filtered.forEach(post => {
+                const card = document.createElement('div');
+                card.className = 'glass-card rounded-2xl overflow-hidden hover:border-purple-500/50 transition duration-300 flex flex-col justify-between';
+                card.innerHTML = `
+                    <div>
+                        <div class="h-44 overflow-hidden relative">
+                            <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 right-3 bg-purple-900/80 border border-purple-400/40 text-purple-200 text-[10px] uppercase font-bold px-2.5 py-1 rounded-full">${post.category}</span>
+                        </div>
+                        <div class="p-5 space-y-2">
+                            <span class="text-xs text-slate-400"><i class="far fa-calendar mr-1"></i>${post.date}</span>
+                            <h3 class="text-lg font-bold text-white hover:text-purple-300 transition cursor-pointer" onclick="openArticle(${post.id})">${post.title}</h3>
+                            <p class="text-xs text-slate-400 line-clamp-2 leading-relaxed">${post.snippet}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0">
+                        <button onclick="openArticle(${post.id})" class="text-xs text-purple-400 font-semibold hover:text-purple-300 flex items-center space-x-1">
+                            <span>Read Article</span> <i class="fas fa-arrow-right text-[10px]"></i>
+                        </button>
+                    </div>
+                `;
+                blogGrid.appendChild(card);
+            });
+        }
+
+        // Filter Blog Posts by Tag
+        function filterBlog(category) {
+            document.querySelectorAll('.tag-btn').forEach(btn => {
+                btn.classList.remove('bg-purple-600', 'text-white');
+                btn.classList.add('bg-slate-800', 'text-slate-300');
+            });
+            event.target.classList.remove('bg-slate-800', 'text-slate-300');
+            event.target.classList.add('bg-purple-600', 'text-white');
+
+            renderBlogPosts(category);
+        }
+
+        // Open Full Article View
+        function openArticle(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('blog-grid').classList.add('hidden');
+            document.getElementById('blog-tags').classList.add('hidden');
+            
+            const modal = document.getElementById('blog-modal');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <span class="bg-purple-900/80 border border-purple-400/40 text-purple-200 text-xs font-bold px-3 py-1 rounded-full">${post.category}</span>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight">${post.title}</h1>
+                    <p class="text-xs text-slate-400"><i class="far fa-calendar mr-1"></i>Published on ${post.date}</p>
+                    <div class="w-full h-64 sm:h-80 rounded-2xl overflow-hidden my-4">
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="prose prose-invert max-w-none space-y-4 text-sm sm:text-base leading-relaxed border-t border-purple-500/20 pt-6">
+                        ${post.content}
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        // Close Full Article View
+        function closeArticle() {
+            document.getElementById('blog-modal').classList.add('hidden');
+            document.getElementById('blog-grid').classList.remove('hidden');
+            document.getElementById('blog-tags').classList.remove('hidden');
+        }
+
+        // Form Submit Feedback
+        function handleFormSubmit(e) {
+            // Note: If using Formspree action url directly, this handler gives visual confirmation
+            const alert = document.getElementById('form-alert');
+            alert.className = "p-4 rounded-xl text-xs font-medium bg-emerald-900/80 text-emerald-200 border border-emerald-500/40 block mb-4";
+            alert.innerText = "ကျေးဇူးတင်ပါသည်။ သင့်စာအား ပေးပို့လိုက်ပါပြီ။ (Formspree ID ထည့်သွင်းထားပါက အီးမေးလ်ဆီ တိုက်ရိုက်ရောက်ရှိမည်ဖြစ်ပါသည်)";
+        }
+
+        // Initialize Blog Grid on load
+        window.onload = function() {
+            renderBlogPosts();
+        };
+    </script>
+</body>
+</html>
