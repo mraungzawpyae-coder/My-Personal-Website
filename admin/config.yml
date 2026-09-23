@@ -2,7 +2,8 @@ backend:
   name: github
   repo: mraungzawpyae-coder/My-Personal-Website
   branch: main
-  site_domain: refnews.site
+  base_url: https://api.decapcms.org
+  auth_endpoint: /auth
 
 media_folder: "assets/images"
 public_folder: "/assets/images"
