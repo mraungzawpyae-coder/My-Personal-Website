@@ -86,7 +86,6 @@
         <!-- ================= HOME SECTION ================= -->
         <div id="tab-home" class="tab-content active space-y-12">
             
-            <!-- HERO BANNER -->
             <section class="py-8 md:py-16 flex flex-col md:flex-row items-center justify-between gap-10">
                 <div class="w-full md:w-1/2 flex justify-center">
                     <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-2xl shadow-purple-900/60">
@@ -110,7 +109,6 @@
                 </div>
             </section>
 
-            <!-- ABOUT ME SECTION -->
             <section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 <div class="md:col-span-7 space-y-8">
                     <div class="inline-block pill-badge text-white text-xl sm:text-2xl font-bold px-8 py-3 rounded-full">
@@ -149,7 +147,6 @@
                 </div>
             </section>
 
-            <!-- SKILLS & EDUCATION -->
             <section>
                 <div class="glass-card curved-card p-6 sm:p-10 md:p-12 space-y-10">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-purple-500/20 pb-8">
@@ -218,18 +215,13 @@
                     <p class="text-slate-400 text-sm mt-1">နည်းပညာ၊ ဝဘ်ဒီဇိုင်းနှင့် ကိုယ်ပိုင် အတွေ့အကြုံ ဆောင်းပါးများ</p>
                 </div>
                 
-                <!-- Dynamic Tag Filter -->
                 <div id="blog-tags" class="flex flex-wrap gap-2 text-xs">
                     <button onclick="filterBlog('All')" class="tag-btn active bg-purple-600 text-white px-3 py-1.5 rounded-full transition">All</button>
                 </div>
             </div>
 
-            <!-- Blog Post List Grid -->
-            <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Posts will be rendered dynamically -->
-            </div>
+            <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
 
-            <!-- Full Article Reader View -->
             <div id="blog-modal" class="hidden glass-card rounded-3xl p-6 sm:p-10 space-y-6">
                 <button onclick="closeArticle()" class="text-sm text-purple-400 hover:text-purple-300 font-semibold flex items-center space-x-2">
                     <i class="fas fa-arrow-left"></i> <span>Back to Posts</span>
@@ -316,7 +308,6 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-900 mt-12">
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
@@ -325,7 +316,6 @@
     <script>
         let blogPosts = [];
 
-        // GitHub API မှတစ်ဆင့် Decap CMS (.md) ဖိုင်များကို ဖတ်ရှုခြင်း
         async function loadDecapPosts() {
             const blogGrid = document.getElementById('blog-grid');
             blogGrid.innerHTML = `
@@ -357,13 +347,11 @@
                         const res = await fetch(file.download_url);
                         const text = await res.text();
 
-                        // Split YAML frontmatter & markdown body
                         const parts = text.split('---');
                         if (parts.length >= 3) {
                             const metadata = jsyaml.load(parts[1]) || {};
                             const body = parts.slice(2).join('---');
 
-                            // Clean text snippet
                             const rawExcerpt = marked.parse(body).replace(/<[^>]*>?/gm, '');
                             const snippet = rawExcerpt.trim().slice(0, 110) + '...';
 
@@ -371,12 +359,26 @@
                                 ? new Date(metadata.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
                                 : 'Recently';
 
+                            // Fix Image Path for Decap CMS uploaded assets
+                            let rawImg = metadata.thumbnail || metadata.image || '';
+                            let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
+                            
+                            if (rawImg) {
+                                if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
+                                    imgUrl = rawImg;
+                                } else {
+                                    // Remove leading slash if any
+                                    const cleanPath = rawImg.replace(/^\/+/, '');
+                                    imgUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}`;
+                                }
+                            }
+
                             blogPosts.push({
                                 id: file.sha,
                                 title: metadata.title || 'Untitled',
                                 category: metadata.category || 'General',
                                 date: postDate,
-                                image: metadata.thumbnail || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600',
+                                image: imgUrl,
                                 snippet: snippet,
                                 content: body
                             });
@@ -395,7 +397,6 @@
             }
         }
 
-        // Build Dynamic Category Buttons
         function buildCategoryTags() {
             const blogTagsContainer = document.getElementById('blog-tags');
             const categories = ['All', ...new Set(blogPosts.map(p => p.category))];
@@ -410,7 +411,6 @@
             });
         }
 
-        // Render Blog Grid Cards
         function renderBlogPosts(category = 'All') {
             const blogGrid = document.getElementById('blog-grid');
             blogGrid.innerHTML = '';
@@ -447,7 +447,6 @@
             });
         }
 
-        // Filter Posts
         function filterBlog(category, event) {
             document.querySelectorAll('.tag-btn').forEach(btn => {
                 btn.classList.remove('bg-purple-600', 'text-white');
@@ -460,7 +459,6 @@
             renderBlogPosts(category);
         }
 
-        // Article Modal
         function openArticle(postId) {
             const post = blogPosts.find(p => p.id === postId);
             if (!post) return;
@@ -522,7 +520,6 @@
             alert.innerText = "ကျေးဇူးတင်ပါသည်။ သင့်စာအား ပေးပို့လိုက်ပါပြီ။";
         }
 
-        // Initialize CMS Fetching on Page Load
         window.onload = function() {
             loadDecapPosts();
         };
