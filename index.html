@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- INTELLIGENT ASSET URL CLEANER SCRIPT -->
+    <!-- SCRIPT WITH FULL IMAGE DISPLAY FIX -->
     <script>
         let blogPosts = [];
 
@@ -321,7 +321,7 @@
             blogGrid.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-12 text-slate-400">
                     <i class="fas fa-spinner fa-spin text-3xl text-purple-500 mb-3"></i>
-                    <p class="text-sm">ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
+                    <p class="text-sm">CMS ဆောင်းပါးများကို လှမ်းဖတ်နေပါသည်...</p>
                 </div>`;
 
             const repoOwner = 'mraungzawpyae-coder';
@@ -363,16 +363,11 @@
                             let imgUrl = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600';
                             
                             if (rawImg) {
-                                // Extract asset filename regardless of whether it contains GitHub URL, absolute path or relative path
-                                if (rawImg.includes('/assets/images/')) {
-                                    const parts = rawImg.split('/assets/images/');
-                                    imgUrl = '/assets/images/' + parts[parts.length - 1];
-                                } else if (rawImg.includes('assets/images/')) {
-                                    const parts = rawImg.split('assets/images/');
-                                    imgUrl = '/assets/images/' + parts[parts.length - 1];
+                                if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
+                                    imgUrl = rawImg;
                                 } else {
-                                    const cleanName = rawImg.split('/').pop();
-                                    imgUrl = '/assets/images/' + cleanName;
+                                    const cleanPath = rawImg.replace(/^\/+/, '');
+                                    imgUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}`;
                                 }
                             }
 
@@ -474,6 +469,7 @@
 
             const parsedHTML = marked.parse(post.content || '');
 
+            // Use object-contain and max height with a dark background to show the full uploaded image without cropping
             content.innerHTML = `
                 <div class="space-y-4">
                     <span class="bg-purple-900/80 border border-purple-400/40 text-purple-200 text-xs font-bold px-3 py-1 rounded-full">${post.category}</span>
