@@ -312,7 +312,7 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- SCRIPT WITH FULL IMAGE DISPLAY FIX -->
+    <!-- SCRIPT WITH RELATIVE ASSET PATH FIX -->
     <script>
         let blogPosts = [];
 
@@ -366,8 +366,9 @@
                                 if (rawImg.startsWith('http://') || rawImg.startsWith('https://')) {
                                     imgUrl = rawImg;
                                 } else {
+                                    // Use local site relative asset path directly (e.g. assets/images/...)
                                     const cleanPath = rawImg.replace(/^\/+/, '');
-                                    imgUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/${cleanPath}`;
+                                    imgUrl = `${window.location.origin}/${cleanPath}`;
                                 }
                             }
 
@@ -469,7 +470,6 @@
 
             const parsedHTML = marked.parse(post.content || '');
 
-            // Use object-contain and max height with a dark background to show the full uploaded image without cropping
             content.innerHTML = `
                 <div class="space-y-4">
                     <span class="bg-purple-900/80 border border-purple-400/40 text-purple-200 text-xs font-bold px-3 py-1 rounded-full">${post.category}</span>
