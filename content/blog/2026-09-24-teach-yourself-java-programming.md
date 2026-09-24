@@ -6,4 +6,4 @@ thumbnail: /assets/images/capture.png
 ---
 <iframe src="https://github.com/user-attachments/files/32611714/Teach.YourSelf.Java.Programming.pdf" width="100%" height="600px" style="border:none;"></iframe>
 
-\[📥 Teach Yourself Java Programming (PDF) ကို Download ဆွဲရန်](https://github.com/user-attachments/files/32611714/Teach.YourSelf.Java.Programming.pdf)
+[\[📥 Teach Yourself Java Programming (PDF) ကို Download ဆွဲရန်]](https://github.com/user-attachments/files/32611714/Teach.YourSelf.Java.Programming.pdf)
