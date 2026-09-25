@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="my" class="scroll-smooth">
 <head>
-    <script>
-      if (window.location.search) {
-        const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({}, document.title, cleanUrl);
-      }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aung Zaw Linn Portfolio & Blog</title>
@@ -223,9 +217,14 @@
             <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
 
             <div id="blog-modal" class="hidden glass-card rounded-3xl p-6 sm:p-10 space-y-6">
-                <button onclick="closeArticle()" class="text-sm text-purple-400 hover:text-purple-300 font-semibold flex items-center space-x-2">
-                    <i class="fas fa-arrow-left"></i> <span>Back to Posts</span>
-                </button>
+                <div class="flex items-center justify-between">
+                    <button onclick="closeArticle()" class="text-sm text-purple-400 hover:text-purple-300 font-semibold flex items-center space-x-2">
+                        <i class="fas fa-arrow-left"></i> <span>Back to Posts</span>
+                    </button>
+                    <button onclick="shareCurrentPost()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold px-4 py-2 rounded-xl transition flex items-center space-x-2">
+                        <i class="fas fa-share-alt"></i> <span>Share Link</span>
+                    </button>
+                </div>
                 <div id="modal-content" class="space-y-6"></div>
             </div>
         </div>
@@ -312,9 +311,10 @@
         &copy; <script>document.write(new Date().getFullYear())</script> Aung Zaw Linn. All rights reserved.
     </footer>
 
-    <!-- SCRIPT WITH FULL IMAGE DISPLAY FIX -->
+    <!-- SCRIPT WITH POST LINK ROUTING & SHARING -->
     <script>
         let blogPosts = [];
+        let activePostId = null;
 
         async function loadDecapPosts() {
             const blogGrid = document.getElementById('blog-grid');
@@ -352,6 +352,9 @@
                             const metadata = jsyaml.load(parts[1]) || {};
                             const body = parts.slice(2).join('---');
 
+                            // Create a URL-friendly slug from filename (e.g. "my-first-post.md" -> "my-first-post")
+                            const slug = file.name.replace(/\.md$/, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
                             const rawExcerpt = marked.parse(body).replace(/<[^>]*>?/gm, '');
                             const snippet = rawExcerpt.trim().slice(0, 110) + '...';
 
@@ -373,6 +376,7 @@
 
                             blogPosts.push({
                                 id: file.sha,
+                                slug: slug,
                                 title: metadata.title || 'Untitled',
                                 category: metadata.category || 'General',
                                 date: postDate,
@@ -388,6 +392,9 @@
 
                 buildCategoryTags();
                 renderBlogPosts('All');
+
+                // Check URL path on load to see if a specific post was requested (e.g. /blog/slug-name)
+                checkUrlForPost();
 
             } catch (error) {
                 console.error("Decap CMS Load Error:", error);
@@ -425,18 +432,18 @@
                 card.className = 'glass-card rounded-2xl overflow-hidden hover:border-purple-500/50 transition duration-300 flex flex-col justify-between';
                 card.innerHTML = `
                     <div>
-                        <div class="h-44 overflow-hidden relative bg-slate-900">
+                        <div class="h-44 overflow-hidden relative bg-slate-900 cursor-pointer" onclick="openArticle('${post.slug}')">
                             <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover hover:scale-105 transition duration-500" onerror="this.src='https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=600'">
                             <span class="absolute top-3 right-3 bg-purple-900/80 border border-purple-400/40 text-purple-200 text-[10px] uppercase font-bold px-2.5 py-1 rounded-full">${post.category}</span>
                         </div>
                         <div class="p-5 space-y-2">
                             <span class="text-xs text-slate-400"><i class="far fa-calendar mr-1"></i>${post.date}</span>
-                            <h3 class="text-lg font-bold text-white hover:text-purple-300 transition cursor-pointer line-clamp-2" onclick="openArticle('${post.id}')">${post.title}</h3>
+                            <h3 class="text-lg font-bold text-white hover:text-purple-300 transition cursor-pointer line-clamp-2" onclick="openArticle('${post.slug}')">${post.title}</h3>
                             <p class="text-xs text-slate-400 line-clamp-3 leading-relaxed">${post.snippet}</p>
                         </div>
                     </div>
-                    <div class="p-5 pt-0">
-                        <button onclick="openArticle('${post.id}')" class="text-xs text-purple-400 font-semibold hover:text-purple-300 flex items-center space-x-1">
+                    <div class="p-5 pt-0 flex items-center justify-between">
+                        <button onclick="openArticle('${post.slug}')" class="text-xs text-purple-400 font-semibold hover:text-purple-300 flex items-center space-x-1">
                             <span>Read Article</span> <i class="fas fa-arrow-right text-[10px]"></i>
                         </button>
                     </div>
@@ -457,9 +464,11 @@
             renderBlogPosts(category);
         }
 
-        function openArticle(postId) {
-            const post = blogPosts.find(p => p.id === postId);
+        function openArticle(postSlug, pushHistory = true) {
+            const post = blogPosts.find(p => p.slug === postSlug);
             if (!post) return;
+
+            activePostId = post.slug;
 
             document.getElementById('blog-grid').classList.add('hidden');
             document.getElementById('blog-tags').classList.add('hidden');
@@ -469,7 +478,6 @@
 
             const parsedHTML = marked.parse(post.content || '');
 
-            // Use object-contain and max height with a dark background to show the full uploaded image without cropping
             content.innerHTML = `
                 <div class="space-y-4">
                     <span class="bg-purple-900/80 border border-purple-400/40 text-purple-200 text-xs font-bold px-3 py-1 rounded-full">${post.category}</span>
@@ -486,12 +494,35 @@
 
             modal.classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (pushHistory) {
+                const newPath = `/blog/${post.slug}`;
+                window.history.pushState({ tab: 'blog', post: post.slug }, '', newPath);
+            }
         }
 
-        function closeArticle() {
+        function closeArticle(pushHistory = true) {
+            activePostId = null;
             document.getElementById('blog-modal').classList.add('hidden');
             document.getElementById('blog-grid').classList.remove('hidden');
             document.getElementById('blog-tags').classList.remove('hidden');
+
+            if (pushHistory) {
+                window.history.pushState({ tab: 'blog' }, '', '/blog');
+            }
+        }
+
+        function shareCurrentPost() {
+            const currentUrl = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(currentUrl).then(() => {
+                    alert("ဆောင်းပါး Link ကို ကူးယူပြီးပါပြီ။ မိတ်ဆွေများထံ မျှဝေနိုင်ပါပြီ။");
+                }).catch(err => {
+                    prompt("ဒီ Link ကို Copy ကူးပြီး Share နိုင်ပါတယ် -", currentUrl);
+                });
+            } else {
+                prompt("ဒီ Link ကို Copy ကူးပြီး Share နိုင်ပါတယ် -", currentUrl);
+            }
         }
 
         function switchTab(tabId, pushHistory = true) {
@@ -510,7 +541,11 @@
                 targetBtn.classList.add('text-purple-400', 'font-semibold');
             }
 
-            closeArticle();
+            if (tabId !== 'blog') {
+                document.getElementById('blog-modal').classList.add('hidden');
+                document.getElementById('blog-grid').classList.remove('hidden');
+                document.getElementById('blog-tags').classList.remove('hidden');
+            }
 
             if (pushHistory) {
                 const newPath = tabId === 'home' ? '/' : `/${tabId}`;
@@ -518,11 +553,24 @@
             }
         }
 
-        window.onpopstate = function(event) {
-            const path = window.location.pathname.replace('/', '') || 'home';
-            if (['home', 'blog', 'contact'].includes(path)) {
-                switchTab(path, false);
+        function checkUrlForPost() {
+            const pathParts = window.location.pathname.split('/').filter(Boolean);
+            // Example path: /blog/my-first-post or /my-first-post depending on hosting
+            if (pathParts.length >= 2 && pathParts[0].toLowerCase() === 'blog') {
+                const postSlug = pathParts[1];
+                switchTab('blog', false);
+                openArticle(postSlug, false);
+            } else if (pathParts.length === 1 && pathParts[0].toLowerCase() === 'contact') {
+                switchTab('contact', false);
+            } else if (pathParts.length === 1 && pathParts[0].toLowerCase() === 'blog') {
+                switchTab('blog', false);
+            } else {
+                switchTab('home', false);
             }
+        }
+
+        window.onpopstate = function(event) {
+            checkUrlForPost();
         };
 
         function handleFormSubmit(e) {
@@ -533,13 +581,6 @@
 
         window.onload = function() {
             loadDecapPosts();
-
-            const initialPath = window.location.pathname.replace('/', '').toLowerCase();
-            if (initialPath === 'blog' || initialPath === 'contact') {
-                switchTab(initialPath, false);
-            } else {
-                switchTab('home', false);
-            }
         };
     </script>
 </body>
